@@ -4,13 +4,13 @@
 		"appversion" : 		{
 			"major" : 8,
 			"minor" : 1,
-			"revision" : 2,
+			"revision" : 8,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 77.0, 1481.0, 929.0 ],
+		"rect" : [ 72.0, 94.0, 1481.0, 622.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,7 @@
 		"tags" : "",
 		"style" : "",
 		"subpatcher_template" : "",
+		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
 					"id" : "obj-17",
@@ -261,8 +262,8 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "sevish.txt",
-				"bootpath" : "~/Documents/Max 8/Patches",
+				"name" : "ascale (1).txt",
+				"bootpath" : "~/Documents/GitHub/Triadic",
 				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
