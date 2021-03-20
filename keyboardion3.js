@@ -150,7 +150,7 @@ function setScale(s){
 }
 
 function listenAscii(n){
-	post("\nlistenAscii");
+	//post("\nlistenAscii");
 	this.listening = n;
 	if (n == 1){
 		this.listenI = 0;
