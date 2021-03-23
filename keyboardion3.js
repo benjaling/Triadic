@@ -22,14 +22,37 @@ this.key = 0;
 this.listening = 0;
 //keeps track of which item in this.k is being filled
 this.listenI = 0;
+//interval between notes when object plays multiple notes
+this.interval = 2;
 
 this.namesSharp = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
 this.namesFlat = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"]
 
-majorScale = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28];
-minorScale = [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 20, 22, 24, 26, 27];
+//hardcoded values for each row of keys
+topRow = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112];
+midRow = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
+botRow = [122, 120, 99, 118, 98, 110, 109, 44, 46, 47];
+numRow = [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 48, 45, 61];
+
+//hardcoded intervals for the ionian mode (from previous notes)
+diatonicIntervals = [2, 2, 1, 2, 2, 2, 1]
+//hardcoded names of diatonic scales, in order
+diatonicScales = ["ionian","dorian","phrygian","lydian","mixolydian","aeolian","locrian"]
+
+//hardcoded intervals from 0 for major, minor, blues, chromatic
+majorScale = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31,33,35,36];
+minorScale = [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 20, 22, 24, 26, 27, 29, 31,32,34,36];
 bluesScale = [0, 3, 5, 6, 7, 10, 12, 15, 17, 18, 19, 22, 24]
 chromaticScale = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+
+//takes in index of diatonic scale as n, populates v according to that scale.
+function diatonicV(n){
+	counter = 0;
+	for (var i = 0; i < 128; i++){
+		this.v[i] = counter;
+		counter += diatonicIntervals[(i+n)%7];
+	}
+}
 
 //takes an ascii value and returns appropriate Midi value
 function getMidi(n){
@@ -50,7 +73,7 @@ function msg_int(n){
 		//Check each of this object's ascii values to see if the key pressed is one of them. Output appropriate note.
 		for (var i = 0; i < this.k.length; i++){
 			if(this.k[i] == n){
-				outlet(0,"play",getMidi(i+2*j));
+				outlet(0,"play",getMidi(i+this.interval*j));
 			}
 		}		
 	}
@@ -79,23 +102,10 @@ function list(a){
 
 //just a little look under the hood
 function bang(){
-	post("\nkeysdown:");
-	for (var i = 0; i < 256; i++){
-		post(keysDown[i])
-	}
-	for (var i = 0; i < 256; i++){
-		keysDown[i] = 0;
-	}
-	post("\nkeysdown:");
-	for (var i = 0; i < 256; i++){
-		post(keysDown[i])
-	}
+	post("\nv:");
 	for (var i = 0; i < this.v.length; i++){
 		post(this.v[i]);
 	}
-	post("\nsustain");
-	post(this.sustain);
-	//post("\ninterval:",interval);
 }
 
 //occurs when user STOPS holding a key. If that key matches one of this object's ASCII values,
@@ -104,7 +114,7 @@ function keyup(n){
 	for (var j = 0; j < this.notes; j++){
 		for (var i = 0; i < this.k.length; i++){
 			if(this.k[i] == n){
-				outlet(0,"stop",getMidi(i+2*j));
+				outlet(0,"stop",getMidi(i+this.interval*j));
 			}
 		}
 	}			
@@ -137,6 +147,10 @@ function setOffset(n){
 	this.offset = n;
 }
 
+function setInterval(n){
+	this.interval = n;
+}
+
 function setScale(s){
 	if (s == "major"){
 		this.v = majorScale;
@@ -146,6 +160,24 @@ function setScale(s){
 		this.v = bluesScale;
 	}else if (s == "chromatic"){
 		this.v = chromaticScale;
+	}else{
+		for (var i = 0; i < 8; i++){
+			if(diatonicScales[i] == s){
+				diatonicV(i);
+			}
+		}
+	}
+}
+
+function setRow(s){
+	if (s == "top"){
+		this.k = topRow;
+	}else if (s == "middle"){
+		this.k = midRow;
+	}else if (s == "bottom"){
+		this.k = botRow;
+	}else if (s == "numbers"){
+		this.k = numRow;
 	}
 }
 
