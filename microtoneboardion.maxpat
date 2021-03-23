@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 77.0, 1852.0, 929.0 ],
+		"rect" : [ 42.0, 85.0, 1852.0, 929.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,6 +38,48 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-86",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1478.410063505172729, 128.0, 97.0, 22.0 ],
+					"saved_object_attributes" : 					{
+						"filename" : "microtonePlay",
+						"parameter_enable" : 0
+					}
+,
+					"text" : "js microtonePlay"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-73",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1648.0, 160.0, 50.0, 22.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"format" : 6,
+					"id" : "obj-18",
+					"maxclass" : "flonum",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1422.0, 251.0, 50.0, 22.0 ]
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-45",
 					"maxclass" : "message",
@@ -88,8 +130,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 1648.0, 324.0, 43.0, 22.0 ],
-					"text" : "cycle~"
+					"patching_rect" : [ 1648.0, 324.0, 52.0, 22.0 ],
+					"text" : "phasor~"
 				}
 
 			}
@@ -121,21 +163,6 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"format" : 6,
-					"id" : "obj-57",
-					"maxclass" : "flonum",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "bang" ],
-					"parameter_enable" : 0,
-					"patching_rect" : [ 1648.0, 169.0, 50.0, 22.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
 					"format" : 4,
 					"id" : "obj-58",
 					"maxclass" : "number",
@@ -157,7 +184,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1237.410063505172729, 169.915743350982666, 50.0, 22.0 ],
-					"text" : "53 0"
+					"text" : "47 0"
 				}
 
 			}
@@ -1253,7 +1280,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 922.974171578884125, 88.058207333087921, 50.0, 36.0 ],
-					"text" : "keyup 101"
+					"text" : "keyup 106"
 				}
 
 			}
@@ -1653,7 +1680,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 868.772644281387329, 50.558207333087921, 22.340425729751587, 36.0 ],
-					"text" : "101"
+					"text" : "106"
 				}
 
 			}
@@ -2368,17 +2395,17 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-57", 0 ],
-					"order" : 0,
+					"destination" : [ "obj-8", 0 ],
+					"midpoints" : [ 1163.082936644554138, 147.0, 1163.082936644554138, 147.0 ],
+					"order" : 2,
 					"source" : [ "obj-4", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
-					"midpoints" : [ 1163.082936644554138, 147.0, 1163.082936644554138, 147.0 ],
-					"order" : 2,
+					"destination" : [ "obj-86", 0 ],
+					"order" : 0,
 					"source" : [ "obj-4", 0 ]
 				}
 
@@ -2534,22 +2561,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-50", 0 ],
-					"order" : 1,
-					"source" : [ "obj-57", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-58", 0 ],
-					"order" : 0,
-					"source" : [ "obj-57", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-114", 0 ],
 					"midpoints" : [ 672.23807966709137, 183.0, 716.916640520095825, 183.0 ],
 					"order" : 1,
@@ -2619,6 +2630,22 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-50", 0 ],
+					"order" : 1,
+					"source" : [ "obj-73", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-58", 0 ],
+					"order" : 0,
+					"source" : [ "obj-73", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-110", 0 ],
 					"midpoints" : [ 102.590922832489014, 531.0, 144.0, 531.0, 144.0, 528.0, 157.729821264743805, 528.0 ],
 					"order" : 0,
@@ -2640,6 +2667,13 @@
 					"destination" : [ "obj-78", 0 ],
 					"midpoints" : [ 212.414994657039642, 459.0, 189.0, 459.0, 189.0, 492.0, 102.590922832489014, 492.0 ],
 					"source" : [ "obj-81", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-73", 0 ],
+					"source" : [ "obj-86", 0 ]
 				}
 
 			}
@@ -2715,7 +2749,7 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "ascale.txt",
+				"name" : "microtonePlay.js",
 				"bootpath" : "~/Documents/Max 8/Patches",
 				"patcherrelativepath" : ".",
 				"type" : "TEXT",
