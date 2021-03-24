@@ -1,10 +1,10 @@
-inlets = 1;
+inlets = 2;
 outlets = 2;
 
 
 var myWindow = new JitterObject("jit.window", "visual");
 myWindow.floating = 1;
-myWindow.size = [200, 200];
+myWindow.size = [200, 400];
 myWindow.fsaa = 1;
 myWindow.pos = [1000, 100];
 myWindow.depthbuffer = 0;
@@ -45,19 +45,22 @@ Particle.prototype.update = function() {
 	this.lifespan -= 2;
 };
 
-Particle.prototype.display = function(r,b,g) {
+Particle.prototype.display = function() {
 	mySketch.moveto(this.location.x, this.location.y, this.location.z);
 	var alpha = this.lifespan / 255.0;
 	mySketch.glcolor(0.3, 0.3, 0.3, alpha);
 	mySketch.circle(0.02);
+	var r = /*(n % 12) * 12 % 256;*/ Math.random() * 256;
+	var b = /*(n % 12) * 60 % 256;*/ (Math.random() * 256)-150;
+	var g = /*(n % 12) * 90 % 256;*/ Math.random() * 256 - 200;
 	mySketch.glcolor(r, g, b, alpha);
 	mySketch.gllinewidth(2);
 	mySketch.framecircle(0.02);
 };
 
-Particle.prototype.run = function(r,b,g) {
+Particle.prototype.run = function() {
 	this.update();
-	this.display(r,b,g);
+	this.display();
 }
 
 Particle.prototype.isDead = function() {
@@ -80,17 +83,21 @@ function setup() {
 
 setup();
 
-function draw() {
+function draw(n) {
 	
-	pArray.push(new Particle(.7));
-	pArray.push(new Particle(-.7));
-	
+	var loc = (n % 36);
+	/*if(loc <= 15){
+		var yloc = 1 - (loc /16);
+	}else{
+		var yloc = 0 - (loc / 33);
+	}*/
+	var yloc = 1 - (loc / 33)*2;
+	pArray.push(new Particle(yloc));
+	pArray.push(new Particle(yloc));
 
 	for(var i = pArray.length-1; i >= 0; i--) {
-		var r = 0 //Math.random() * 256;
-		var b = 256 //Math.random() * 256;
-		var g = 0 //Math.random() * 256;
-		pArray[i].run(r,b,g);
+		
+		pArray[i].run();
 		if(pArray[i].isDead()) {
 			pArray.splice(i, 1);
 		}
@@ -99,6 +106,20 @@ function draw() {
 	myRender.erase();
 	myRender.drawswap();
 
+	mySketch.reset();
+}
+
+function moveP(){
+	for(var i = pArray.length-1; i >= 0; i--) {
+		
+		pArray[i].run();
+		if(pArray[i].isDead()) {
+			pArray.splice(i, 1);
+		}
+	}
+	myRender.erase();
+	myRender.drawswap();
+	
 	mySketch.reset();
 }
 
@@ -121,7 +142,7 @@ function play(n){
 	notes[n]++;
 	outlet(1,this.velocity);
 	outlet(0,n);
-	draw();
+	draw(n);
 }
 
 function stop(n){
