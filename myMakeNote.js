@@ -24,7 +24,9 @@ function play(n){
 }
 
 function stop(n){
-	notes[n]--;
+	if (notes[n] > 0){
+		notes[n]--;
+	}
 	if (notes[n] == 0 && pedal == 0){
 		outlet(0,n,0);
 	}

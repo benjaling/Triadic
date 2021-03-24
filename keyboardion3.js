@@ -16,7 +16,7 @@ this.offset = 0;
 this.sustain = 0;
 //pedal curretly functions the same as sustain, but is controlled separately
 this.pedalKey = 32;
-//gets added to the interval and octave to arrive at correct key.
+//gets added to the interval and octave to arrive at correct key; 0-11
 this.key = 0;
 //integer messages populate this.k while true
 this.listening = 0;
@@ -24,6 +24,14 @@ this.listening = 0;
 this.listenI = 0;
 //interval between notes when object plays multiple notes
 this.interval = 2;
+//first opton for shifting
+this.shift1 = [31,30]
+//ammount to shift for shift 1
+this.shamt1 = 1;
+//second opttion for shifting
+this.shift2 = [28,29]
+//ammount to shift for shift2
+this.shamt2 = 7;
 
 this.namesSharp = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
 this.namesFlat = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"]
@@ -32,18 +40,14 @@ this.namesFlat = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"]
 topRow = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112];
 midRow = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
 botRow = [122, 120, 99, 118, 98, 110, 109, 44, 46, 47];
-numRow = [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 48, 45, 61];
+numRow = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
 
 //hardcoded intervals for the ionian mode (from previous notes)
 diatonicIntervals = [2, 2, 1, 2, 2, 2, 1]
 //hardcoded names of diatonic scales, in order
 diatonicScales = ["ionian","dorian","phrygian","lydian","mixolydian","aeolian","locrian"]
-
-//hardcoded intervals from 0 for major, minor, blues, chromatic
-majorScale = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31,33,35,36];
-minorScale = [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 20, 22, 24, 26, 27, 29, 31,32,34,36];
-bluesScale = [0, 3, 5, 6, 7, 10, 12, 15, 17, 18, 19, 22, 24]
-chromaticScale = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+//hardcoded intervals for blues scale
+bluesIntervals = [3, 2, 1, 1, 3, 2]
 
 //takes in index of diatonic scale as n, populates v according to that scale.
 function diatonicV(n){
@@ -51,6 +55,20 @@ function diatonicV(n){
 	for (var i = 0; i < 128; i++){
 		this.v[i] = counter;
 		counter += diatonicIntervals[(i+n)%7];
+	}
+}
+
+function bluesV(){
+	counter = 0;
+	for (var i = 0; i < 128; i++){
+		this.v[i] = counter;
+		counter += bluesIntervals[i%6];
+	}
+}
+
+function chromaticV(){
+	for (var i = 0; i < 128; i++){
+		this.v[i] = i;
 	}
 }
 
@@ -80,6 +98,24 @@ function msg_int(n){
 	//if the key pressed has been designated as the pedal, activate pedal.	
 	if (n == pedalKey){
 		outlet(0,"setPedal",1);
+	}else{
+		//pitch shift?
+		var amt = 0;
+		for (var i = 0; i < 2; i++){
+			if (n == this.shift1[i]){
+				amt = ((i*2)-1)*shamt1;
+			}else if (n == this.shift2[i]){
+				amt = ((i*2)-1)*shamt2;
+			}
+		}
+		//stop playing all notes
+		if (amt){
+			for (var i = 0; i < this.k.length; i++){
+				keyup(this.k[i])
+			}
+			this.key = (this.key + amt)%12;
+		}
+		
 	}
 	
 	
@@ -153,13 +189,13 @@ function setInterval(n){
 
 function setScale(s){
 	if (s == "major"){
-		this.v = majorScale;
+		diatonicV(0);
 	}else if (s == "minor"){
-		this.v = minorScale;
+		diatonicV(5);
 	}else if (s == "blues"){
-		this.v = bluesScale;
+		bluesV();
 	}else if (s == "chromatic"){
-		this.v = chromaticScale;
+		chromaticV();
 	}else{
 		for (var i = 0; i < 8; i++){
 			if(diatonicScales[i] == s){
