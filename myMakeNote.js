@@ -46,3 +46,12 @@ function setPedal(n){
 function setVelocity(n){
 	this.velocity = n;
 }
+
+function stopAll(){
+	for (var i = 0; i < 256; i++){
+		if (this.notes[i] != 0){
+			this.notes[i] = 0;
+			outlet(0,i,0);
+		}
+	}
+}

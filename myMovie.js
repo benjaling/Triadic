@@ -91,7 +91,7 @@ function draw(n) {
 	}else{
 		var yloc = 0 - (loc / 33);
 	}*/
-	var yloc = 1 - (loc / 33)*2;
+	var yloc = .82 - (loc / 36)*1.5;
 	pArray.push(new Particle(yloc));
 	pArray.push(new Particle(yloc));
 

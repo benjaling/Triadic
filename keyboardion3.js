@@ -1,5 +1,5 @@
 inlets = 1;
-outlets = 1;
+outlets = 2;
 //k is key; ascii values of key being pressed
 //this.k = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
 this.k = [];
@@ -109,11 +109,15 @@ function msg_int(n){
 			}
 		}
 		//stop playing all notes
-		if (amt){
-			for (var i = 0; i < this.k.length; i++){
-				keyup(this.k[i])
+		if (amt != 0){
+			//post("\n");
+			for (var ii = 0; ii < 256; ii++){
+				outlet(0, "stopAll");
+				//post(this.k[ii]);
 			}
-			this.key = (this.key + amt)%12;
+			//this.key = (this.key + amt)%12;
+			outlet(1,(this.key + amt+12)%12);
+			
 		}
 		
 	}
@@ -140,7 +144,7 @@ function list(a){
 function bang(){
 	post("\nv:");
 	for (var i = 0; i < this.v.length; i++){
-		post(this.v[i]);
+		post(i);
 	}
 }
 
