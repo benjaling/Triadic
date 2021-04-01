@@ -153,30 +153,5 @@ function bang(){
 }
 
 function play(n){
-	notes[n]++;
-	outlet(1,this.velocity);
-	outlet(0,n);
 	draw(n);
-}
-
-function stop(n){
-	notes[n]--;
-	if (notes[n] == 0 && pedal == 0){
-		outlet(0,n,0);
-	}
-}
-
-function setPedal(n){
-	this.pedal = n;
-	if (n == 0){
-		for (var i = 0; i < 256; i++){
-			if (this.notes[i] == 0){
-				outlet(0,i,0);
-			}
-		}	
-	}
-}
-
-function setVelocity(n){
-	this.velocity = n;
 }
