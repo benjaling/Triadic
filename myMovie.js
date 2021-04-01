@@ -137,13 +137,6 @@ function moveP(){
 	mySketch.reset();
 }
 
-this.notes = [];
-this.pedal = 0;
-this.velocity = 1200;
-
-for (var i = 0; i < 256; i++){
-	this.notes[i] = 0;
-}
 
 function bang(){
 	post("\nNotes:");
@@ -152,6 +145,9 @@ function bang(){
 	}
 }
 
-function play(n){
+function msg_int(n){
 	draw(n);
 }
+
+function list(){
+}	
