@@ -28,7 +28,7 @@ var Vector = {
 };
 
 //c3 - c6
-function Particle(yloc) {
+function Particle(yloc,r,g,b) {
 	this.location = Object.create(Vector);
 	this.velocity = Object.create(Vector);
 	this.acceleration = Object.create(Vector);
@@ -37,6 +37,9 @@ function Particle(yloc) {
 	this.velocity.x = (Math.random()*2 - 1) / 70.0;
 	this.velocity.y = 0; //(Math.random()*2 - 1) / 70.0;
 	this.lifespan = 255;
+	this.red = r;
+	this.green = g;
+	this.blue = b;
 }; 
 
 Particle.prototype.update = function() {
@@ -53,7 +56,7 @@ Particle.prototype.display = function() {
 	var r = /*(n % 12) * 12 % 256;*/ Math.random() * 256;
 	var b = /*(n % 12) * 60 % 256;*/ (Math.random() * 256)-150;
 	var g = /*(n % 12) * 90 % 256;*/ Math.random() * 256 - 200;
-	mySketch.glcolor(r, g, b, alpha);
+	mySketch.glcolor(this.red, this.green, this.blue, alpha);
 	mySketch.gllinewidth(2);
 	mySketch.framecircle(0.02);
 };
@@ -86,14 +89,25 @@ setup();
 function draw(n) {
 	
 	var loc = (n % 36);
-	/*if(loc <= 15){
-		var yloc = 1 - (loc /16);
-	}else{
-		var yloc = 0 - (loc / 33);
-	}*/
-	var yloc = 1 - (loc / 33)*2;
-	pArray.push(new Particle(yloc));
-	pArray.push(new Particle(yloc));
+	var yloc = .82 - (loc / 36 )* 1.5;
+	if ((n % 12) < 4){
+		var r = (n % 12) * 21; //Math.random() * 256;
+		var b = (n % 12) * 21 - 150; //(Math.random() * 256)-150;
+		var g = (n % 12) * 21 - 200; //Math.random() * 256 - 200;
+	}
+	if ((n % 12) < 9 && (n % 12) >= 4){
+		var r = (n % 12) * 21 - 200; //Math.random() * 256;
+		var b = (n % 12) * 21; //(Math.random() * 256)-150;
+		var g = (n % 12) * 21 - 150; //Math.random() * 256 - 200;
+	}
+	if ((n % 12) < 12 && (n % 12) >= 9){
+		var r = (n % 12) * 21 - 150; //Math.random() * 256;
+		var b = (n % 12) * 21 - 200; //(Math.random() * 256)-150;
+		var g = (n % 12) * 21; //Math.random() * 256 - 200;
+	}
+	
+	pArray.push(new Particle(yloc,r,g,b));
+	pArray.push(new Particle(yloc,r,g,b));
 
 	for(var i = pArray.length-1; i >= 0; i--) {
 		
