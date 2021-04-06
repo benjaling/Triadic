@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 77.0, 813.0, 570.0 ],
+		"rect" : [ 76.0, 110.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,12 +40,48 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-29",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 428.5, 375.0, 53.0, 22.0 ],
+					"text" : "prepend"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-28",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 450.0, 285.0, 49.0, 22.0 ],
+					"text" : "append"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-27",
+					"maxclass" : "dial",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "float" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 435.0, 195.0, 40.0, 40.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-26",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 240.0, 65.0, 22.0 ],
+					"patching_rect" : [ 255.0, 270.0, 65.0, 22.0 ],
 					"text" : "color 0 0 0"
 				}
 
@@ -67,7 +103,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 210.0, 78.0, 22.0 ],
+					"patching_rect" : [ 255.0, 240.0, 78.0, 22.0 ],
 					"text" : "color 0 0 256"
 				}
 
@@ -89,7 +125,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 180.0, 78.0, 22.0 ],
+					"patching_rect" : [ 255.0, 210.0, 78.0, 22.0 ],
 					"text" : "color 0 256 0"
 				}
 
@@ -111,7 +147,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 150.0, 78.0, 22.0 ],
+					"patching_rect" : [ 255.0, 180.0, 78.0, 22.0 ],
 					"text" : "color 256 0 0"
 				}
 
@@ -148,7 +184,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 382.0, 122.0, 50.0, 22.0 ],
-					"text" : "53"
+					"text" : "52"
 				}
 
 			}
@@ -161,30 +197,6 @@
 					"outlettype" : [ "int", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 299.0, 14.001446425914764, 336.0, 53.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-6",
-					"maxclass" : "button",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "bang" ],
-					"parameter_enable" : 0,
-					"patching_rect" : [ 139.976550698280334, 46.0, 24.0, 24.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-4",
-					"maxclass" : "number",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "bang" ],
-					"parameter_enable" : 0,
-					"patching_rect" : [ 139.976550698280334, 85.0, 50.0, 22.0 ]
 				}
 
 			}
@@ -231,7 +243,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 140.0, 270.0, 81.0, 22.0 ],
+					"patching_rect" : [ 140.0, 300.0, 81.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "myMovie.js",
 						"parameter_enable" : 0
@@ -266,6 +278,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 264.5, 206.5, 149.5, 206.5 ],
 					"source" : [ "obj-19", 0 ]
 				}
 
@@ -273,6 +286,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 264.5, 235.5, 149.5, 235.5 ],
 					"source" : [ "obj-22", 0 ]
 				}
 
@@ -280,6 +294,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 264.5, 264.5, 149.5, 264.5 ],
 					"source" : [ "obj-24", 0 ]
 				}
 
@@ -287,6 +302,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 264.5, 290.5, 149.5, 290.5 ],
 					"source" : [ "obj-26", 0 ]
 				}
 
@@ -294,27 +310,15 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 14.5, 78.5, 149.5, 78.5 ],
 					"source" : [ "obj-3", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-95", 0 ],
-					"source" : [ "obj-4", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-4", 0 ],
-					"source" : [ "obj-6", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-12", 1 ],
+					"midpoints" : [ 308.5, 94.000723212957382, 422.5, 94.000723212957382 ],
 					"order" : 0,
 					"source" : [ "obj-7", 0 ]
 				}
@@ -323,6 +327,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 308.5, 168.000723212957382, 149.5, 168.000723212957382 ],
 					"order" : 1,
 					"source" : [ "obj-7", 0 ]
 				}
@@ -331,19 +336,12 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-95", 0 ],
+					"midpoints" : [ 14.5, 111.0, 149.5, 111.0 ],
 					"source" : [ "obj-8", 0 ]
 				}
 
 			}
  ],
-		"parameters" : 		{
-			"parameterbanks" : 			{
-
-			}
-,
-			"inherited_shortname" : 1
-		}
-,
 		"dependency_cache" : [ 			{
 				"name" : "myMovie.js",
 				"bootpath" : "~/Documents/GitHub/Triadic",
