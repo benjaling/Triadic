@@ -24,17 +24,23 @@ this.listening = 0;
 this.listenI = 0;
 //interval between notes when object plays multiple notes
 this.interval = 2;
+//if != 0, plays another note this many half steps from root note
+this.extra = 0;
 //first opton for shifting
 this.shift1 = [31,30]
 //ammount to shift for shift 1
 this.shamt1 = 1;
-//second opttion for shifting
+//second option for shifting
 this.shift2 = [28,29]
 //ammount to shift for shift2
 this.shamt2 = 7;
+//what to shift with shift keys; NOT IMPLEMENTED
+this.toShift = "key"
+//keys proceed in circle of fifths if 1
+this.fifthsMode = 0;
 
-this.namesSharp = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
-this.namesFlat = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"]
+//this.namesSharp = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
+//this.namesFlat = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"]
 
 //hardcoded values for each row of keys
 topRow = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112];
@@ -77,6 +83,12 @@ function getMidi(n){
 	return this.v[(n)+this.offset]+(12 * this.octave)+this.key;
 }
 
+function getItem(i){
+	if (this.fifthsMode){
+					return((3*i)%7) + 7*(i/7);
+				}else{return i;}
+}
+
 
 //raw integer input is interpretted as Ascii value of a key. Outles appropriate MIDI pitch value(s).
 //NESTED FORLOOP MAY BE INEFFICIENT - FIX
@@ -86,12 +98,14 @@ function msg_int(n){
 		this.k[listenI] = n;
 		listenI++;
 	}
+	this.item;
 	//for each note that should be output...
 	for (var j = 0; j < this.notes; j++){
 		//Check each of this object's ascii values to see if the key pressed is one of them. Output appropriate note.
 		for (var i = 0; i < this.k.length; i++){
 			if(this.k[i] == n){
-				outlet(0,"play",getMidi(i+this.interval*j));
+				this.item = getItem(i);
+				outlet(0,"play",getMidi(this.item+this.interval*j));
 			}
 		}		
 	}
