@@ -7,10 +7,16 @@ myWindow.visible = 0;
 var myRender = new JitterObject("jit.gl.render", "visual");
 myRender.erase_color = [1, 1, 1, 0.7];
 
-function Theme(d){
+function Theme(d,r,g,b){
 	if(d == 1){
 		myRender.erase_color = [0, 0, 0, 0.7];
-	}else{
+	}else if(d == 0){
+		r = r/256;
+		g = g/256;
+		b = b/256;
+		myRender.erase_color = [r,g,b,0.7];
+	}	
+	else{
 		myRender.erase_color = [1, 1, 1, 0.7];
 	}		
 }
