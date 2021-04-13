@@ -112,7 +112,7 @@ function draw(n) {
 	
 	var loc = (n % 36);
 	var yloc = .80 - (loc / 36 )* 1.5;
-	
+	/*
 	if (red > 0){
 		var r = (red^n) % 256;
 		var g = (n^n) % 256;
@@ -133,10 +133,10 @@ function draw(n) {
 		var g = (n^n) % 256;
 		var b = (n^n) % 256
 	}	
+	*/
 	
-	
-	pArray.push(new Particle(yloc,r,g,b));
-	pArray.push(new Particle(yloc,r,g,b));
+	pArray.push(new Particle(yloc,red,green,blue));
+	pArray.push(new Particle(yloc,red,green,blue));
 
 	for(var i = pArray.length-1; i >= 0; i--) {
 		
