@@ -134,7 +134,7 @@ function draw(n) {
 		var b = (n^n) % 256
 	}	
 	*/
-	
+	//
 	pArray.push(new Particle(yloc,red,green,blue));
 	pArray.push(new Particle(yloc,red,green,blue));
 
