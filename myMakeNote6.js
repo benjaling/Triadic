@@ -18,8 +18,8 @@ function bang(){
 
 function play(n){
 	notes[n]++;
-	outlet(1,this.velocity);
-	outlet(0,n);
+	outlet(0,n,this.velocity);
+	outlet(1,n);
 	
 }
 
@@ -29,6 +29,7 @@ function stop(n){
 	}
 	if (notes[n] == 0 && pedal == 0){
 		outlet(0,n,0);
+		outlet(1,n,0);
 	}
 }
 

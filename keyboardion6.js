@@ -14,7 +14,7 @@ diatonicScales = ["ionian","dorian","phrygian","lydian","mixolydian","aeolian","
 //hardcoded intervals for blues scale
 bluesIntervals = [3, 2, 1, 1, 3, 2]
 //number of groups
-var ngroups = 5;
+var ngroups = 10;
 
 //keygroup class
 function keyboardion(id){
@@ -98,8 +98,8 @@ keyboardion.prototype.getMidi = function(n){
 
 keyboardion.prototype.getItem = function(i){
 	if (this.fifthsMode){
-					return((3*i)%7) + 7*(i/7);
-				}else{return i;}
+		return((3*i)%7) + 7*(i/7);
+	}else{return i;}
 }
 
 
@@ -131,7 +131,7 @@ keyboardion.prototype.msg_int = function(n){
 		for (var i = 0; i < 2; i++){
 			if (n == this.shift1[i]){
 				this.amt = ((i*2)-1)*this.shamt1;
-				post("updown", this.amt)
+				//post("updown", this.amt)
 			}else if (n == this.shift2[i]){
 				this.amt = ((i*2)-1)*this.shamt2;
 				post("leftright",this.amt);
@@ -147,7 +147,7 @@ keyboardion.prototype.msg_int = function(n){
 			//this.key = (this.key + amt)%12;
 			this.key = (this.key + this.amt+12)%12;
 			this.update();
-			post(this.amt);
+			//post(this.amt);
 			
 		}
 		
@@ -171,7 +171,9 @@ keyboardion.prototype.keyup = function(n){
 	for (var j = 0; j < this.notes; j++){
 		for (var i = 0; i < this.k.length; i++){
 			if(this.k[i] == n){
-				outlet(0,"stop",this.getMidi(i+this.interval*j));
+				this.item = this.getItem(i);
+				outlet(0,"stop",this.getMidi(this.item+this.interval*j));
+				//outlet(0,"stop",this.getMidi(i+this.interval*j));
 			}
 		}
 	}			
@@ -253,6 +255,9 @@ keyboardion.prototype.setRow = function(s){
 	}else if (s == "numbers"){
 		this.k = numRow;
 		this.keyRow = 3;
+	}else if (s == "none"){
+		this.k = [];
+		this.keyRow = 5;
 	}
 	this.update();
 }
@@ -264,6 +269,10 @@ keyboardion.prototype.listenAscii = function(n){
 		this.listenI = 0;
 		this.k = [];
 	}	
+}
+
+keyboardion.prototype.setFifthsMode = function(n){
+	this.fifthsMode = n;
 }
 
 keyboardion.prototype.update = function(){
@@ -312,6 +321,9 @@ keyboardion.prototype.execute = function(f,a){
 		case "setPedal":
 			this.setPedal(a);
 			break;
+		case "setFifthsMode":
+			this.setFifthsMode(a);
+			break;
 		default:
 			post("keyboardion.execute did not recognize function: ",f);
 	}
@@ -321,7 +333,6 @@ var groups = [];
 
 for(var i = 0; i < ngroups; i++){
 	groups[i] = new keyboardion(i);
-	groups[i].update();
 }
 /*
 function callS(g,c){
@@ -364,7 +375,7 @@ function msg_int(n){
 }
 
 function call(g,f,a){
-	post(g,f,a);
+	//post(g,f,a);
 	groups[g].execute(f,a);
 }
 
@@ -379,7 +390,7 @@ function text(f,g,a){
 }
 
 function set(id,keyRow,scale,key,octave,notes,offset,interval){
-	post("\nid: ", id, "\n");
+	//post("\nid: ", id, "\n");
 	groups[id].setRow(keyRow);
 	groups[id].setScale(scale);
 	groups[id].setKey(key);
@@ -395,6 +406,12 @@ function saveAll(){
 	}
 	outlet(2,"write");
 	outlet(2,"clear");
+}
+
+function init(){
+	for (var i = 0; i < ngroups; i++){
+		groups[i].update();
+	}
 }
 
 

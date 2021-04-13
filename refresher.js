@@ -2,7 +2,7 @@ inlets = 1;
 //keyRow, Scale, key, octave, #notes, offset, interval
 outlets = 7;
 
-this.array = [[],[],[],[],[]];
+this.array = [[],[],[],[],[],[],[],[],[],[],[],[],[]];
 this.groupn;
 
 for(var i = 0; i < 5; i++){
