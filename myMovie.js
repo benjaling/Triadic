@@ -7,6 +7,14 @@ myWindow.visible = 0;
 var myRender = new JitterObject("jit.gl.render", "visual");
 myRender.erase_color = [1, 1, 1, 0.7];
 
+function Theme(d){
+	if(d == 1){
+		myRender.erase_color = [0, 0, 0, 0.7];
+	}else{
+		myRender.erase_color = [1, 1, 1, 0.7];
+	}		
+}
+
 var mySketch = new JitterObject("jit.gl.sketch", "visual");
 mySketch.blend_enable = 1;
 
@@ -67,7 +75,7 @@ Particle.prototype.update = function() {
 Particle.prototype.display = function() {
 	mySketch.moveto(this.location.x, this.location.y, this.location.z);
 	var alpha = this.lifespan / 255.0;
-	mySketch.glcolor(0.3, 0.3, 0.3, alpha);
+	//mySketch.glcolor(0.3, 0.3, 0.3, alpha);
 	mySketch.circle(0.02);
 	mySketch.glcolor(this.red, this.green, this.blue, alpha);
 	mySketch.gllinewidth(2);
@@ -101,9 +109,9 @@ function setup() {
 setup();
 
 function color(r,g,b){
-	red = r;
-	green = g;
-	blue = b;
+	red = r/256;
+	green = g/256;
+	blue = b/256;
 	
 	
 }	
