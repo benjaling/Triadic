@@ -31,6 +31,7 @@ var xvelocity = (Math.random()*2 - 1) / 70.0;
 var yvelocity = 0;
 var xlocation = 0;
 var ylocation = 0;
+var direction = 0;
 
 function openWindow(){
 	myWindow.visible = 1;
@@ -118,7 +119,13 @@ function color(r,g,b){
 	red = r/256;
 	green = g/256;
 	blue = b/256;
+}	
+
+function setorientation(o){
 	
+}	
+
+function orientation(o){
 	
 }	
 
