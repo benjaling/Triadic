@@ -24,19 +24,19 @@ function out(){
 
 function msg_int(n){
 	this.groupn = n;
-	post("\n",this.group)
+	//post("\n",this.group)
 	out();
 }
 
 function set(s){
 	s = arrayfromargs(messagename,arguments);
-	post("\nrecieved message", s[1], this.groupn);
+	//post("\nrecieved message", s[1], this.groupn);
 	for (var i = 0; i < 7; i++){
 		this.array[s[1]][i] = s[i+2];
 	}
 	if (this.groupn == s[1]){
 		out();
-		post("\ni'm sending out!!");
+		//post("\ni'm sending out!!");
 	}
 }
 

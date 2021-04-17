@@ -1,5 +1,5 @@
 inlets = 1;
-outlets = 3;
+outlets = 4;
 
 //hardcoded values for each row of keys
 topRow = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112];
@@ -15,6 +15,8 @@ diatonicScales = ["ionian","dorian","phrygian","lydian","mixolydian","aeolian","
 bluesIntervals = [3, 2, 1, 1, 3, 2]
 //number of groups
 var ngroups = 10;
+//available outputs
+var outputs= [0,3]
 
 //keygroup class
 function keyboardion(id){
@@ -63,6 +65,10 @@ function keyboardion(id){
 	this.scale = -1;
 	//string identifier for scale
 	this.scaleName = "null";
+	//key for pitch bending
+	this.bendKey = 13;
+	//index for output
+	this.output = 0;
 }
 
 //takes in index of diatonic scale as n, populates v according to that scale.
@@ -118,13 +124,16 @@ keyboardion.prototype.msg_int = function(n){
 		for (var i = 0; i < this.k.length; i++){
 			if(this.k[i] == n){
 				this.item = this.getItem(i);
-				outlet(0,"play",this.getMidi(this.item+this.interval*j));
+				outlet(outputs[this.output],"play",this.getMidi(this.item+this.interval*j));
 			}
 		}		
 	}
+	if (n == this.bendKey){
+		outlet(outputs[this.output],"setBendAmount",1);
+	}
 	//if the key pressed has been designated as the pedal, activate pedal.	
-	if (n == this.pedalKey){
-		outlet(0,"setPedal",1);
+	else if (n == this.pedalKey){
+		outlet(outputs[this.output],"setPedal",1);
 	}else{
 		//pitch shift?
 		this.amt = 0;
@@ -134,14 +143,14 @@ keyboardion.prototype.msg_int = function(n){
 				//post("updown", this.amt)
 			}else if (n == this.shift2[i]){
 				this.amt = ((i*2)-1)*this.shamt2;
-				post("leftright",this.amt);
+				//post("leftright",this.amt);
 			}
 		}
 		//stop playing all notes
 		if (this.amt != 0){
 			//post("\n");
 			for (var ii = 0; ii < 256; ii++){
-				outlet(0, "stopAll");
+				outlet(outputs[this.output], "stopAll");
 				//post(this.k[ii]);
 			}
 			//this.key = (this.key + amt)%12;
@@ -172,14 +181,16 @@ keyboardion.prototype.keyup = function(n){
 		for (var i = 0; i < this.k.length; i++){
 			if(this.k[i] == n){
 				this.item = this.getItem(i);
-				outlet(0,"stop",this.getMidi(this.item+this.interval*j));
+				outlet(outputs[this.output],"stop",this.getMidi(this.item+this.interval*j));
 				//outlet(0,"stop",this.getMidi(i+this.interval*j));
 			}
 		}
 	}			
 	//if n is pedalkey, deactivate pedal.
 	if (n == this.pedalKey){
-		outlet(0,"setPedal",0);
+		outlet(outputs[this.output],"setPedal",0);
+	}else if (n == this.bendKey){
+		outlet(outputs[this.output],"setBendAmount",-1);
 	}
 }
 
@@ -275,12 +286,17 @@ keyboardion.prototype.setFifthsMode = function(n){
 	this.fifthsMode = n;
 }
 
+keyboardion.prototype.setOutput = function(n){
+	this.output = n;
+	//post(this.output);
+}
+
 keyboardion.prototype.update = function(){
 	outlet(1,"set",this.id,this.keyRow,this.scale,this.key,this.octave,this.notes,this.offset,this.interval);
 }
 
 keyboardion.prototype.save = function(){
-	outlet(2, this.id,this.rowName,this.scaleName,this.key,this.octave,this.notes,this.offset,this.interval,"\n");
+	outlet(2, this.id,this.rowName,this.scaleName,this.key,this.octave,this.notes,this.offset,this.interval);
 }
 
 keyboardion.prototype.execute = function(f,a){
@@ -323,6 +339,9 @@ keyboardion.prototype.execute = function(f,a){
 			break;
 		case "setFifthsMode":
 			this.setFifthsMode(a);
+			break;
+		case "setOutput":
+			this.setOutput(a);
 			break;
 		default:
 			post("keyboardion.execute did not recognize function: ",f);
@@ -398,14 +417,18 @@ function set(id,keyRow,scale,key,octave,notes,offset,interval){
 	groups[id].setNotes(notes);
 	groups[id].setOffset(offset);
 	groups[id].setInterval(interval);
+	post("\n(set)id: ",id,"\n");
 }
 
 function saveAll(){
+	outlet(2,"clear");
 	for(var i = 0; i < ngroups; i++){
 		groups[i].save();
+		if (i < ngroups-1){
+			outlet(2,"\n");
+		}
 	}
 	outlet(2,"write");
-	outlet(2,"clear");
 }
 
 function init(){
