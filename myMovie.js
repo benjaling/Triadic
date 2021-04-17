@@ -59,11 +59,12 @@ var Vector = {
 };
 
 //c3 - c6
-function Particle(yloc,r,g,b) {
+function Particle(xloc,yloc,r,g,b) {
 	this.location = Object.create(Vector);
 	this.velocity = Object.create(Vector);
 	this.acceleration = Object.create(Vector);
 	this.location.y = yloc;
+	this.location.x = xloc;
 	this.acceleration.y = 0;
 	this.velocity.x = (Math.random()*2 - 1) / 70.0;
 	this.velocity.y = 0; //(Math.random()*2 - 1) / 70.0;
@@ -121,18 +122,26 @@ function color(r,g,b){
 	blue = b/256;
 }	
 
-function setorientation(o){
-	
+function setorientation(d){
+	direction = d;
 }	
 
-function orientation(o){
-	
+function orientation(n){
+	loc = (n % 36);
+	if(direction == 0){
+		ylocation = .80 - (loc / 36 )* 1.5;
+		xlocation = 0;
+	}else if(direction == 1){
+		xlocation = .80 - (loc / 36 )* 1.5;
+		ylocation = 0;
+	}else{
+		xlocation = .80 - (loc / 36 )* 1.5;
+		ylocation = .80 - (loc / 36 )* 1.5;
+	}	
 }	
 
 function draw(n) {
-	
-	var loc = (n % 36);
-	var yloc = .80 - (loc / 36 )* 1.5;
+	orientation(n)
 	/*
 	if (red > 0){
 		var r = (red^n) % 256;
@@ -156,8 +165,8 @@ function draw(n) {
 	}	
 	*/
 	//
-	pArray.push(new Particle(yloc,red,green,blue));
-	pArray.push(new Particle(yloc,red,green,blue));
+	pArray.push(new Particle(xlocation,ylocation,red,green,blue));
+	pArray.push(new Particle(xlocation,ylocation,red,green,blue));
 
 	for(var i = pArray.length-1; i >= 0; i--) {
 		
