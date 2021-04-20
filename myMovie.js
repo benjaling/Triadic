@@ -27,11 +27,14 @@ mySketch.blend_enable = 1;
 var red = 0; 
 var green = 0;
 var blue = 0;
-var xvelocity = (Math.random()*2 - 1) / 70.0;
+var xvelocity = 1;
 var yvelocity = 0;
 var xlocation = 0;
 var ylocation = 0;
+var yaccel = 0;
 var direction = 0;
+var rainT = 0;
+var fireT = 0;
 
 function openWindow(){
 	myWindow.visible = 1;
@@ -65,9 +68,9 @@ function Particle(xloc,yloc,r,g,b) {
 	this.acceleration = Object.create(Vector);
 	this.location.y = yloc;
 	this.location.x = xloc;
-	this.acceleration.y = 0;
-	this.velocity.x = (Math.random()*2 - 1) / 70.0;
-	this.velocity.y = 0; //(Math.random()*2 - 1) / 70.0;
+	this.acceleration.y = yaccel;
+	this.velocity.x = velocity(xvelocity)
+	this.velocity.y = velocity(yvelocity)
 	this.lifespan = 255;
 	this.red = r;
 	this.green = g;
@@ -85,7 +88,23 @@ Particle.prototype.display = function() {
 	var alpha = this.lifespan / 255.0;
 	//mySketch.glcolor(0.3, 0.3, 0.3, alpha);
 	mySketch.circle(0.02);
-	mySketch.glcolor(this.red, this.green, this.blue, alpha);
+	if(rainT = 0){
+		mySketch.glcolor(this.red, this.green, this.blue, alpha);
+	}else{
+		this.red = this.red + .0039 *5;
+		if(this.red >= 1){
+			this.red = this.red - 1;
+		}	
+		this.blue = this.blue + .0039 *5;
+		if(this.blue >= 1){
+			this.blue = this.blue - 1;
+		}
+		this.green = this.green + .0039 *5;
+		if(this.green >= 1){
+			this.green = this.green - 1;
+		}
+		mySketch.glcolor(this.red, this.green, this.blue, alpha);
+	}		
 	mySketch.gllinewidth(2);
 	mySketch.framecircle(0.02);
 };
@@ -120,7 +139,15 @@ function color(r,g,b){
 	red = r/256;
 	green = g/256;
 	blue = b/256;
-}	
+}
+
+function rainbowToggle(){
+	if (rainT == 0){
+		rainT = 1;
+	}else{
+		rainT = 0;
+	}	
+}					
 
 function setorientation(d){
 	direction = d;
@@ -131,40 +158,61 @@ function orientation(n){
 	if(direction == 0){
 		ylocation = .80 - (loc / 36 )* 1.5;
 		xlocation = 0;
+		xvelocity = 1;
+		yvelocity = 0;
 	}else if(direction == 1){
 		xlocation = .80 - (loc / 36 )* 1.5;
 		ylocation = 0;
+		yvelocity = 1;
+		xvelocity = 0;
 	}else{
 		xlocation = .80 - (loc / 36 )* 1.5;
 		ylocation = .80 - (loc / 36 )* 1.5;
+		yvelocity = 1;
+		xvelocity = 1;
 	}	
 }	
 
-function draw(n) {
-	orientation(n)
-	/*
-	if (red > 0){
-		var r = (red^n) % 256;
-		var g = (n^n) % 256;
-		var b = (n^n) % 256;
-	}
-	else if(green > 0){
-		var r = 0;
-		var g = (green^n) % 256;
-		var b = 0;
-	}
-	else if(blue > 0){
-		var r = 0;
-		var g = 0;
-		var b = (blue^n) % 256;
-	}
-	else{
-		var r = (n^n) % 256;
-		var g = (n^n) % 256;
-		var b = (n^n) % 256
+function velocity(d){
+	var vel;
+	if(d == 1){
+		vel = (Math.random()*2 - 1) / 70.0;
+	}else if(d == 1){
+		vel = (Math.random()*2 - 1) / 70.0;
+	}else{
+		vel = 0;
+	}			
+	return vel;		
+}
+
+function fireToggle(){
+	if(fireT == 0){
+		fireT = 1;
+	}else{
+		fireT = 0;
 	}	
-	*/
-	//
+}			
+
+function fireworks(){
+	yaccel = -.001;
+	loc = (Math.random() * 100) % 100;
+	var r = (Math.random() * 50) % 50;
+	xlocation = .80 - (Math.abs(loc - r) / 100 )* 1.5;
+	ylocation = .80 - ((loc + r) / 100 )* 1.5;
+	
+}	
+
+function draw(n) {
+	yaccel = 0;
+	if (fireT == 0){
+		orientation(n)
+	}else{
+		fireworks()
+		pArray.push(new Particle(xlocation,ylocation,red,green,blue));
+		pArray.push(new Particle(xlocation,ylocation,red,green,blue));
+		pArray.push(new Particle(xlocation,ylocation,red,green,blue));
+		pArray.push(new Particle(xlocation,ylocation,red,green,blue));
+	}	
 	pArray.push(new Particle(xlocation,ylocation,red,green,blue));
 	pArray.push(new Particle(xlocation,ylocation,red,green,blue));
 
